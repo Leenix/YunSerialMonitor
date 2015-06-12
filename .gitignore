@@ -6,6 +6,14 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.vcxproj*
+*.atsuo
+*.atsln
+*.cppproj
+*.pyc
+
+*.[iI]dea/
+Visual Micro/
 
 # Build results
 [Dd]ebug/
