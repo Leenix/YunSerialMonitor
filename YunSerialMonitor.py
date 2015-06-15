@@ -11,7 +11,7 @@ from serial import SerialException
 
 class SerialMonitor:
 
-    def __init__(self, port, baud_rate, logger_name=__name__, logger_level=logging.INFO):
+    def __init__(self, port, baud_rate, logger_name=__name__, logger_level=logging.DEBUG):
         self.port = port
         self.baud_rate = baud_rate
         self.ser = serial.Serial()
@@ -38,6 +38,7 @@ class SerialMonitor:
             self.logger.debug("Opening serial port [{}] with {} baud".format(self.port, self.baud_rate))
             self.ser.setBaudrate(self.baud_rate)
             self.ser.setPort(self.port)
+            self.ser.setTimeout(100)
             self.ser.open()
 
         except SerialException:
@@ -67,8 +68,9 @@ class SerialMonitor:
         :return:
         """
         while self.is_reading:
-            c = self.ser.read()
-            print c
+            if self.ser.inWaiting() > 0:
+                c = self.ser.read()
+                sys.stdout.write(c)
 
     def _write_loop(self):
         """
@@ -83,7 +85,7 @@ if __name__ == '__main__':
     logger = logging.getLogger("YunSerial")
     logger.setLevel(logging.DEBUG)
 
-    monitor = SerialMonitor("/dev/ttyATM0", 57600)
+    monitor = SerialMonitor("/dev/ttyATH0", 57600, logger_level=logging.DEBUG)
     monitor.run()
 
     try:
