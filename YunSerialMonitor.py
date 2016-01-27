@@ -23,7 +23,7 @@ class SerialMonitor:
         self.is_reading = False
         self.read_thread = Thread(name="read_thread", target=self._read_loop)
 
-        # self.is_writing = False
+        self.is_writing = False
         # self.write_thread = Thread(name="write_thread", target=self._write_loop)
 
     def run(self):
@@ -52,43 +52,40 @@ class SerialMonitor:
         self.is_reading = True
 
         # self.write_thread.start()
-        # self.is_writing = True
+        self.is_writing = True
 
-
-def stop(self):
-    """
-        Shut down the serial monitor
-        :return:
+    def stop(self):
         """
-    self.logger.info("Stopping serial comms")
-    self.is_writing = False
-    self.is_reading = False
-    self.ser.close()
-    sys.exit()
+            Shut down the serial monitor
+            :return:
+            """
+        self.logger.info("Stopping serial comms")
+        self.is_writing = False
+        self.is_reading = False
+        self.ser.close()
+        sys.exit()
 
-
-def _read_loop(self):
-    """
-        Print received characters to the console
-        :return:
+    def _read_loop(self):
         """
-    while self.is_reading:
-        try:
-            c = self.ser.readline()
-            if c:
-                print c
-        except Exception, e:
-            continue
+            Print received characters to the console
+            :return:
+            """
+        while self.is_reading:
+            try:
+                c = self.ser.readline()
+                if c:
+                    print c
+            except Exception, e:
+                continue
 
-
-def _write_loop(self):
-    """
-        Write console characters across to the serial link
-        :return:
+    def _write_loop(self):
         """
-    while self.is_writing:
-        c = sys.stdin.read()
-        self.ser.write(c)
+            Write console characters across to the serial link
+            :return:
+            """
+        while self.is_writing:
+            c = sys.stdin.read()
+            self.ser.write(c)
 
 
 if __name__ == '__main__':
