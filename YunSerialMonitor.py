@@ -35,10 +35,13 @@ class SerialMonitor:
 
         try:
             self.logger.debug("Opening serial port [{}] with {} baud".format(self.port, self.baud_rate))
-            self.ser.setBaudrate(self.baud_rate)
-            self.ser.setPort(self.port)
-            self.ser.setTimeout(1)
+            self.ser.baudrate = self.baud_rate
+            self.ser.port = self.port
+            self.ser.timeout = 1
+	    print(self.ser)
+
             self.ser.open()
+            print(self.ser.is_open)
 
             self.ser.flushOutput()
             self.ser.flushInput()
@@ -92,7 +95,7 @@ if __name__ == '__main__':
     logger = logging.getLogger("YunSerial")
     logger.setLevel(logging.DEBUG)
 
-    monitor = SerialMonitor("/dev/ttyATH0", 115200, logger_level=logging.DEBUG)
+    monitor = SerialMonitor("/dev/ttyATH0", 57600, logger_level=logging.DEBUG)
     monitor.run()
 
     try:
